@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Study App - Figma Mobile Style UI with Browse & Profile</title>
+  <title>Study App with Sidebar Icons Menu</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -25,6 +25,7 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       font-family: var(--font-family);
@@ -37,6 +38,7 @@
       -moz-osx-font-smoothing: grayscale;
       -webkit-tap-highlight-color: transparent;
       line-height: 1.45;
+      overflow-x: hidden;
     }
 
     main {
@@ -46,6 +48,11 @@
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
+      transition: margin-left 0.3s ease;
+    }
+
+    main.sidebar-open {
+      margin-left: 60px;
     }
 
     header {
@@ -57,11 +64,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 10;
+      z-index: 20;
       user-select: none;
       height: 40px;
       min-height: 40px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
     }
+
     .logo {
       font-weight: 600;
       font-size: 1rem;
@@ -69,20 +78,113 @@
       letter-spacing: 1px;
       user-select: text;
     }
+
     .menu-button {
       background: none;
       border: none;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       cursor: pointer;
       color: var(--color-text-secondary);
       transition: color 0.25s ease;
       padding: 4px 8px;
+      user-select: none;
     }
+
     .menu-button:hover,
     .menu-button:focus {
       color: var(--color-accent);
       outline: none;
     }
+
+    /* Slim icon sidebar for menu */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -60px;
+      height: 100vh;
+      width: 60px;
+      background: var(--color-card-bg);
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      padding: var(--spacing) 0;
+      overflow-y: auto;
+      transition: left 0.3s ease;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+    }
+    .sidebar.open {
+      left: 0;
+    }
+
+    /* Icon buttons vertical stack */
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .sidebar nav button {
+      background: none;
+      border: none;
+      width: 48px;
+      height: 48px;
+      margin: 0 auto;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: var(--border-radius);
+      position: relative;
+      transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    }
+    .sidebar nav button:hover,
+    .sidebar nav button:focus {
+      background-color: #dbeafe;
+      color: var(--color-accent);
+      outline: none;
+    }
+
+    /* Tooltip on hover */
+    .sidebar nav button .tooltip {
+      position: absolute;
+      left: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--color-accent);
+      color: white;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      border-radius: var(--border-radius);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      font-weight: 600;
+      user-select: none;
+      z-index: 50;
+    }
+    .sidebar nav button:hover .tooltip,
+    .sidebar nav button:focus .tooltip {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Icons: simple line SVGs, monochrome */
+    svg.icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      user-select: none;
+    }
+
+    /* Hero, cards, nav bottom etc. remain as before ... */
 
     .hero {
       padding: var(--spacing) 0 8px;
@@ -182,7 +284,6 @@
       text-align: right;
       user-select: none;
     }
-
     .card .sub-content {
       margin-top: 8px;
       padding-top: 8px;
@@ -369,10 +470,42 @@
 <body>
   <header role="banner" aria-label="Study app header">
     <div class="logo" aria-label="App logo">StudyMate</div>
-    <button class="menu-button" aria-label="Open menu" id="menuButton" aria-haspopup="true" aria-expanded="false">&#9776;</button>
+    <button class="menu-button" id="menuButton" aria-label="Toggle menu" aria-haspopup="true" aria-expanded="false" title="Menu">&#9776;</button>
   </header>
 
-  <main role="main" tabindex="-1">
+  <aside class="sidebar" id="sidebar" aria-label="Sidebar with important links and tools" tabindex="-1">
+    <nav>
+      <!-- Each button with icon SVG + tooltip -->
+      <button type="button" aria-label="Dashboard" tabindex="0">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+        <span class="tooltip">Dashboard</span>
+      </button>
+      <button type="button" aria-label="Study Materials" tabindex="0" id="sidebarStudyBtn">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM8 20H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V8h2v4zm10 8h-8v-2h8v2zm0-4h-8v-2h8v2zm0-4h-8V8h8v4z"/></svg>
+        <span class="tooltip">Study Materials</span>
+      </button>
+      <button type="button" aria-label="Browse" tabindex="0" id="sidebarBrowseBtn">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v2H4V5zm0 7h16v2H4v-2zm0 7h16v2H4v-2z"/></svg>
+        <span class="tooltip">Browse</span>
+      </button>
+      <button type="button" aria-label="Profile" tabindex="0" id="sidebarProfileBtn">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg>
+        <span class="tooltip">Profile</span>
+      </button>
+      <button type="button" aria-label="Settings" tabindex="0" id="sidebarSettingsBtn">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.14,12.94a1.44,1.44,0,0,0,0-1.89l2.11-1.63a.5.5,0,0,0-.12-.84l-2-1a.5.5,0,0,0-.62.14l-2,2.13a1.44,1.44,0,0,0-1.88,0L10.5,9.23a.5.5,0,0,0-.7.14l-1,2a.5.5,0,0,0,.14.7L11.1,13a1.44,1.44,0,0,0,0,1.88L9.11,17a.5.5,0,0,0,.14.7l1,1a.5.5,0,0,0,.7-.14l1.63-2.11a1.44,1.44,0,0,0,1.88,0l2.11,1.63a.5.5,0,0,0,.84-.12l1-2a.5.5,0,0,0-.14-.7Zm-7.15,1.56A2,2,0,1,1,14,12a2,2,0,0,1-2,2Z"/></svg>
+        <span class="tooltip">Settings</span>
+      </button>
+      <button type="button" aria-label="Help" tabindex="0" id="sidebarHelpBtn">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm.25 17h-1.5v-1.5h1.5zm1.1-6.61a1.63 1.63 0 1 1-1.63-1.63m0-3.98a3.4 3.4 0 0 0-2.74 1.2 2.858 2.858 0 0 0-.51 1.47v.02a.75.75 0 0 0 1.5 0v-.02c0-.16.06-.28.15-.38a1.9 1.9 0 0 1 1.15-.5 1.95 1.95 0 0 1 2.2 1.94c0 .92-.88 1.61-1.73 2.14-.6.39-1.21.73-1.21 1.42v.02a.75.75 0 0 0 1.5 0v-.02c0-.16.06-.28.15-.38.33-.21.87-.57 1.28-.91a3.23 3.23 0 0 0 1.2-2.42 3.4 3.4 0 0 0-3.38-3.38z"/></svg>
+        <span class="tooltip">Help</span>
+      </button>
+    </nav>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" tabindex="-1" aria-hidden="true"></div>
+
+  <main role="main" tabindex="-1" id="mainContent">
     <section id="tab-home" class="tab-content active" aria-label="Home tab content">
       <section class="hero" aria-label="Hero section">
         <h1>Master Your Studies</h1>
@@ -427,21 +560,15 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM fully loaded and parsed.');
-
-  // Elements and tabs
   const tabs = {
     home: document.getElementById('tab-home'),
     browse: document.getElementById('tab-browse'),
     profile: document.getElementById('tab-profile')
   };
-
   const navHomeBtn = document.getElementById('navHomeBtn');
   const navBrowseBtn = document.getElementById('navBrowseBtn');
   const navProfileBtn = document.getElementById('navProfileBtn');
-
   const navButtons = [navHomeBtn, navBrowseBtn, navProfileBtn];
-
   let currentTab = 'home';
 
   function switchTab(target) {
@@ -465,59 +592,56 @@ document.addEventListener('DOMContentLoaded', () => {
   navBrowseBtn.addEventListener('click', () => switchTab('browse'));
   navProfileBtn.addEventListener('click', () => switchTab('profile'));
 
-  // Study materials data for Home tab
+  // Sidebar toggle
+  const menuButton = document.getElementById('menuButton');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.createElement('div');
+  sidebarOverlay.className = 'sidebar-overlay';
+  sidebarOverlay.tabIndex = -1;
+  sidebarOverlay.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(sidebarOverlay);
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    mainContent.classList.add('sidebar-open');
+    menuButton.setAttribute('aria-expanded', 'true');
+    sidebarOverlay.classList.add('active');
+    sidebar.focus();
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    mainContent.classList.remove('sidebar-open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    sidebarOverlay.classList.remove('active');
+    menuButton.focus();
+  }
+
+  menuButton.addEventListener('click', () => {
+    if(sidebar.classList.contains('open')) closeSidebar();
+    else openSidebar();
+  });
+  sidebarOverlay.addEventListener('click', closeSidebar);
+  
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+  });
+
+  // Study materials and downloads, notifications setup...
+
   const studyMaterials = [
-    {
-      id: 'mat1',
-      title: 'Mathematics Basics',
-      description: 'Start with algebra, geometry, and calculus fundamentals.',
-      details: '12 lessons',
-      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
-    },
-    {
-      id: 'mat2',
-      title: 'Physics Principles',
-      description: 'Understand motion, forces, energy, and waves.',
-      details: '9 lessons',
-      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
-    },
-    {
-      id: 'mat3',
-      title: 'Chemistry Essentials',
-      description: 'Explore atoms, molecules, reactions, and periodic trends.',
-      details: '15 lessons',
-      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
-    },
-    {
-      id: 'mat4',
-      title: 'Biology Intro',
-      description: 'Learn about cells, genetics, ecology, and evolution.',
-      details: '11 lessons',
-      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
-    },
-    {
-      id: 'mat5',
-      title: 'History Overview',
-      description: 'Dive into world history from ancient to modern times.',
-      details: '8 lessons',
-      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
-    },
-    {
-      id: 'mat6',
-      title: 'Computer Science',
-      description: 'Discover algorithms, programming basics, and data structures.',
-      details: '14 lessons',
-      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
-    }
+    {id:'mat1', title:'Mathematics Basics', description:'Start with algebra, geometry, and calculus fundamentals.', details:'12 lessons', downloadUrl:'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'},
+    {id:'mat2', title:'Physics Principles', description:'Understand motion, forces, energy, and waves.', details:'9 lessons', downloadUrl:'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'},
+    {id:'mat3', title:'Chemistry Essentials', description:'Explore atoms, molecules, reactions, and periodic trends.', details:'15 lessons', downloadUrl:'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'},
+    {id:'mat4', title:'Biology Intro', description:'Learn about cells, genetics, ecology, and evolution.', details:'11 lessons', downloadUrl:'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'},
+    {id:'mat5', title:'History Overview', description:'Dive into world history from ancient to modern times.', details:'8 lessons', downloadUrl:'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'},
+    {id:'mat6', title:'Computer Science', description:'Discover algorithms, programming basics, and data structures.', details:'14 lessons', downloadUrl:'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'}
   ];
 
   const cardsContainer = document.getElementById('studyCards');
-
+  const mainContent = document.getElementById('mainContent');
   const ongoingDownloads = [];
   const completedDownloads = [];
-
   const notifications = [];
-
   const notificationsList = document.getElementById('notificationsList');
   const ongoingDownloadsList = document.getElementById('ongoingDownloadsList');
   const downloadsList = document.getElementById('downloadsList');
@@ -639,7 +763,6 @@ document.addEventListener('DOMContentLoaded', () => {
         card.setAttribute('aria-pressed', 'true');
       }
     });
-
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -659,7 +782,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startDownload(material) {
-    // Check existing downloads
     if (ongoingDownloads.some(d => d.id === material.id) || completedDownloads.some(d => d.id === material.id)) {
       alert(`"${material.title}" is already downloading or downloaded.`);
       return;
@@ -669,7 +791,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderOngoingDownloads();
 
     const intervalId = setInterval(() => {
-      // Increment by 5-20%
       downloadItem.progress += Math.floor(Math.random() * 15) + 5;
       if (downloadItem.progress >= 100) {
         downloadItem.progress = 100;
@@ -686,14 +807,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 800);
   }
 
+
   // GitHub repo info
   const githubOwner = 'octokit';
   const githubRepo = 'octokit.rb';
   const githubPath = '';
-
   const browseLoading = document.getElementById('browseLoading');
   const fileList = document.getElementById('fileList');
-
   async function fetchMarkdownFiles() {
     browseLoading.style.display = 'block';
     fileList.innerHTML = '';
@@ -736,7 +856,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Simulate real-time notification
   function simulateNotificationUpdates() {
     const messages = [
       'New study material "Advanced Math" uploaded!',
@@ -751,7 +870,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 15000);
   }
 
-  // Start app after DOM ready
   renderStudyCards();
   renderNotifications();
   renderOngoingDownloads();
@@ -760,6 +878,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('startStudyingBtn').addEventListener('click', () => {
     switchTab('browse');
+  });
+
+  // Sidebar nav buttons - sync with tab navigation
+  document.getElementById('sidebarStudyBtn').addEventListener('click', () => {
+    switchTab('home');
+  });
+  document.getElementById('sidebarBrowseBtn').addEventListener('click', () => {
+    switchTab('browse');
+  });
+  document.getElementById('sidebarProfileBtn').addEventListener('click', () => {
+    switchTab('profile');
+  });
+  document.getElementById('sidebarSettingsBtn').addEventListener('click', () => {
+    alert('Settings tool coming soon!');
+  });
+  document.getElementById('sidebarHelpBtn').addEventListener('click', () => {
+    alert('Help tool coming soon!');
   });
 });
 </script>
