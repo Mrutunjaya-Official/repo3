@@ -633,15 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
           el.parentElement.setAttribute('aria-pressed', 'false');
           el.setAttribute('aria-hidden', 'true');
         });
-        subContent.setAttribute('aria-hidden', 'true');
-        card.setAttribute('aria-pressed', 'false');
-      } else {
-        document.querySelectorAll('.card .sub-content.active').forEach(el => {
-          el.style.display = 'none';
-          el.classList.remove('active');
-          el.parentElement.setAttribute('aria-pressed', 'false');
-          el.setAttribute('aria-hidden', 'true');
-        });
         subContent.style.display = 'block';
         subContent.classList.add('active');
         subContent.setAttribute('aria-hidden', 'false');
