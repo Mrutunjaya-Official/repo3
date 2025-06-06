@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Study App - Figma Mobile Style UI with Browse & Profile</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    :root {
+      --color-bg: #ffffff;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6b7280;
+      --color-accent: #2563eb;
+      --color-accent-hover: #1e40af;
+      --color-card-bg: #f9fafb;
+      --color-shadow: rgba(0,0,0,0.05);
+      --border-radius: 0.75rem;
+      --spacing: 12px;
+      --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Sidebar */
+    aside.sidebar {
+      width: 220px;
+      background: var(--color-card-bg);
+      box-shadow: 0 2px 5px var(--color-shadow);
+      padding: var(--spacing);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing);
+      user-select: none;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-radius: 0 0.75rem 0.75rem 0;
+      font-size: 0.9rem;
+      color: var(--color-text-primary);
+      flex-shrink: 0;
+    }
+    aside.sidebar h2 {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0 0 8px;
+      user-select: text;
+      color: var(--color-accent);
+    }
+    aside.sidebar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    aside.sidebar ul li {
+      padding: 6px 8px;
+      border-radius: var(--border-radius);
+      user-select: text;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    aside.sidebar ul li:hover,
+    aside.sidebar ul li:focus {
+      background-color: #dbeafe;
+      outline: none;
+    }
+    aside.sidebar a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      width: 100%;
+      user-select: text;
+    }
+
+    /* Main container */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 var(--spacing) var(--spacing);
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid #e5e7eb;
+      padding: 8px var(--spacing);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      user-select: none;
+      height: 40px;
+      min-height: 40px;
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .logo {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--color-accent);
+      letter-spacing: 1px;
+      user-select: text;
+    }
+    .menu-button {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: color 0.25s ease;
+      padding: 4px 8px;
+    }
+    .menu-button:hover,
+    .menu-button:focus {
+      color: var(--color-accent);
+      outline: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: var(--spacing) 0 8px;
+      text-align: center;
+      margin-bottom: var(--spacing);
+    }
+    .hero h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+    }
+    .hero p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero button {
+      margin-top: var(--spacing);
+      background-color: var(--color-accent);
+      border: none;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      box-shadow: 0 3px 6px var(--color-shadow);
+      transition: background-color 0.3s ease;
+    }
+    .hero button:hover,
+    .hero button:focus {
+      background-color: var(--color-accent-hover);
+      outline: none;
+    }
+
+    /* Study Cards Grid */
+    .study-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: var(--spacing);
+    }
+    @media(min-width: 440px) {
+      .study-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+    }
+
+    /* Single Card */
+    .card {
+      background: var(--color-card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 5px var(--color-shadow);
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      color: var(--color-text-primary);
+      min-height: 92px;
+    }
+    .card:hover,
+    .card:focus {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 5px 12px rgba(37, 99, 235, 0.18);
+      outline: none;
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      color: var(--color-text-secondary);
+      flex-grow: 1;
+      user-select: text;
+    }
+    .card .details {
+      margin-top: 8px;
+      font-size: 0.70rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      text-align: right;
+      user-select: none;
+    }
+
+    /* Bottom Navigation Bar */
+    nav.bottom-nav {
+      background: var(--color-bg);
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-around;
+      padding: 6px 0;
+      position: sticky;
+      bottom: 0;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+      user-select: none;
+      z-index: 10;
+    }
+    nav.bottom-nav button {
+      background: none;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 2px 6px;
+      transition: color 0.25s ease;
+      user-select: none;
+    }
+    nav.bottom-nav button:focus,
+    nav.bottom-nav button:hover {
+      color: var(--color-accent);
+      outline: none;
+    }
+    nav.bottom-nav button[aria-current="page"] {
+      color: var(--color-accent);
+    }
+    nav.bottom-nav button svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Accessibility focus */
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    /* Main tab content containers */
+    .tab-content {
+      display: none;
+      padding-bottom: 60px; /* leave space for bottom nav */
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Browse tab file list */
+    .file-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 420px;
+      overflow-y: auto;
+      border-radius: var(--border-radius);
+      border: 1px solid #e5e7eb;
+      background: var(--color-card-bg);
+      box-shadow: 0 2px 5px var(--color-shadow);
+    }
+    .file-list li {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--color-accent);
+      user-select: text;
+      transition: background-color 0.2s ease;
+    }
+    .file-list li:last-child {
+      border-bottom: none;
+    }
+    .file-list li:hover,
+    .file-list li:focus {
+      background-color: #dbeafe;
+      outline: none;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      padding: 20px 0;
+    }
+
+    /* Profile Sections */
+    .profile-section {
+      margin-bottom: var(--spacing);
+    }
+    .profile-section h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .list-group {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-radius: var(--border-radius);
+      border: 1px solid #e5e7eb;
+      background: var(--color-card-bg);
+      box-shadow: 0 2px 5px var(--color-shadow);
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .list-group li {
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      border-bottom: 1px solid #e5e7eb;
+      user-select: text;
+    }
+    .list-group li:last-child {
+      border-bottom: none;
+    }
+    .empty-list {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--color-text-secondary);
+      user-select: none;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      height: 10px;
+      background-color: #dbeafe;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--color-accent);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" aria-label="Useful links and tools sidebar">
+    <h2>Useful Links</h2>
+    <ul>
+      <li><a href="https://byjus.com/upsc/history-upsc-syllabus/" target="_blank" rel="noopener">UPSC History Syllabus</a></li>
+      <li><a href="https://jeemain.nta.nic.in/" target="_blank" rel="noopener">JEE Main Official</a></li>
+      <li><a href="https://www.ets.org/gre/revised_general/prepare/verbal_reasoning" target="_blank" rel="noopener">GRE Verbal Reasoning</a></li>
+      <li><a href="https://www.ets.org/gre/revised_general/prepare/quantitative_reasoning" target="_blank" rel="noopener">GRE Quantitative Reasoning</a></li>
+    </ul>
+    <h2>Tools</h2>
+    <ul>
+      <li><a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noopener">Markdown Cheat Sheet</a></li>
+      <li><a href="https://codepen.io/" target="_blank" rel="noopener">CodePen</a></li>
+      <li><a href="https://jsonlint.com/" target="_blank" rel="noopener">JSON Linter</a></li>
+      <li><a href="https://regex101.com/" target="_blank" rel="noopener">Regex Tester</a></li>
+    </ul>
+  </aside>
+
+  <div style="flex: 1; display: flex; flex-direction: column; min-height: 100vh;">
+    <header role="banner" aria-label="Study app header">
+      <div class="logo" aria-label="App logo">StudyMate</div>
+      <button class="menu-button" aria-label="Open menu" id="menuButton" aria-haspopup="true" aria-expanded="false">&#9776;</button>
+    </header>
+
+    <main role="main" tabindex="-1">
+      <!-- Home Tab -->
+      <section id="tab-home" class="tab-content active" aria-label="Home tab content">
+        <section class="hero" aria-label="Hero section">
+          <h1>Master Your Studies</h1>
+          <p>Explore tailored study materials to boost your learning wherever you go.</p>
+          <button type="button" id="startStudyingBtn" aria-label="Browse study materials">Browse Materials</button>
+        </section>
+
+        <section class="study-cards" id="studyCards" aria-label="Available study materials">
+          <!-- Cards populated by JS -->
+        </section>
+      </section>
+
+      <!-- Browse Tab -->
+      <section id="tab-browse" class="tab-content" aria-label="Browse tab content">
+        <h2 style="font-weight:600; color: var(--color-text-primary); margin-bottom: 10px;">Browse Markdown Files</h2>
+        <p style="font-size:0.9rem; color: var(--color-text-secondary); margin-bottom:8px;">
+          Loading .md files from GitHub repository <code>octokit/octokit.rb</code>:
+        </p>
+        <div id="browseLoading" class="loading" aria-live="polite">Loading files...</div>
+        <ul id="fileList" class="file-list" tabindex="0" aria-label="Markdown files list">
+          <!-- Fetched files -->
+        </ul>
+      </section>
+
+      <!-- Profile Tab -->
+      <section id="tab-profile" class="tab-content" aria-label="Profile tab content">
+        <section class="profile-section" aria-label="Notifications">
+          <h3>Notifications</h3>
+          <ul id="notificationsList" class="list-group" tabindex="0" aria-live="polite" aria-atomic="true">
+            <!-- Notifications populated by JS -->
+          </ul>
+          <button type="button" id="addNotificationBtn" aria-label="Add notification" style="margin-top:8px; background-color: var(--color-accent); color:white; border:none; border-radius:var(--border-radius); padding:6px 12px; cursor:pointer; font-weight:600;">Add Notification</button>
+        </section>
+
+        <section class="profile-section" aria-label="Ongoing Downloads">
+          <h3>Ongoing Downloads</h3>
+          <ul id="ongoingDownloadsList" class="list-group" tabindex="0" aria-live="polite" aria-atomic="true">
+            <!-- Ongoing downloads populated by JS -->
+          </ul>
+        </section>
+
+        <section class="profile-section" aria-label="Completed Downloads">
+          <h3>Downloads</h3>
+          <ul id="downloadsList" class="list-group" tabindex="0" aria-live="polite" aria-atomic="true">
+            <!-- Completed downloads populated by JS -->
+          </ul>
+        </section>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+      <button type="button" aria-current="page" aria-label="Home" id="navHomeBtn">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-5H9v5H4a1 1 0 0 1-1-1V9.5z"/></svg>
+        Home
+      </button>
+      <button type="button" aria-label="Browse" id="navBrowseBtn">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 5h16v2H4V5zm0 7h16v2H4v-2zm0 7h16v2H4v-2z"/></svg>
+        Browse
+      </button>
+      <button type="button" aria-label="Profile" id="navProfileBtn">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg>
+        Profile
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // Tab elements
+    const tabs = {
+      home: document.getElementById('tab-home'),
+      browse: document.getElementById('tab-browse'),
+      profile: document.getElementById('tab-profile')
+    };
+
+    // Nav buttons
+    const navHomeBtn = document.getElementById('navHomeBtn');
+    const navBrowseBtn = document.getElementById('navBrowseBtn');
+    const navProfileBtn = document.getElementById('navProfileBtn');
+
+    const navButtons = [navHomeBtn, navBrowseBtn, navProfileBtn];
+
+    // Current active tab
+    let currentTab = 'home';
+
+    // Function to switch tabs
+    function switchTab(target) {
+      if(target === currentTab) return;
+      // Hide all tab contents
+      Object.values(tabs).forEach(tab => tab.classList.remove('active'));
+      // Show target tab content
+      tabs[target].classList.add('active');
+
+      // Update nav buttons aria-current
+      navButtons.forEach(btn => btn.setAttribute('aria-current', 'false'));
+      if(target === 'home') navHomeBtn.setAttribute('aria-current', 'page');
+      else if(target === 'browse') navBrowseBtn.setAttribute('aria-current', 'page');
+      else if(target === 'profile') navProfileBtn.setAttribute('aria-current', 'page');
+
+      currentTab = target;
+
+      // If browse tab, load GitHub .md files list dynamically
+      if(target === 'browse') {
+        fetchMarkdownFiles();
+      }
+      // If profile tab, refresh profile data
+      if(target === 'profile') {
+        renderNotifications();
+        renderOngoingDownloads();
+        renderCompletedDownloads();
+      }
+    }
+
+    navHomeBtn.addEventListener('click', () => switchTab('home'));
+    navBrowseBtn.addEventListener('click', () => switchTab('browse'));
+    navProfileBtn.addEventListener('click', () => switchTab('profile'));
+
+    // Study materials data for Home tab
+    const studyMaterials = [
+      {
+        id: 'mat1',
+        title: 'Mathematics Basics',
+        description: 'Start with algebra, geometry, and calculus fundamentals.',
+        details: '12 lessons',
+      },
+      {
+        id: 'mat2',
+        title: 'Physics Principles',
+        description: 'Understand motion, forces, energy, and waves.',
+        details: '9 lessons',
+      },
+      {
+        id: 'mat3',
+        title: 'Chemistry Essentials',
+        description: 'Explore atoms, molecules, reactions, and periodic trends.',
+        details: '15 lessons',
+      },
+      {
+        id: 'mat4',
+        title: 'Biology Intro',
+        description: 'Learn about cells, genetics, ecology, and evolution.',
+        details: '11 lessons',
+      },
+      {
+        id: 'mat5',
+        title: 'History Overview',
+        description: 'Dive into world history from ancient to modern times.',
+        details: '8 lessons',
+      },
+      {
+        id: 'mat6',
+        title: 'Computer Science',
+        description: 'Discover algorithms, programming basics, and data structures.',
+        details: '14 lessons',
+      }
+    ];
+
+    const cardsContainer = document.getElementById('studyCards');
+
+    function createStudyCard(material) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-pressed', 'false');
+      card.setAttribute('aria-label', `Study material: ${material.title}`);
+
+      card.innerHTML = `
+        <h2>${material.title}</h2>
+        <p>${material.description}</p>
+        <div class="details">${material.details}</div>
+      `;
+
+      card.addEventListener('click', () => {
+        alert('Coming soon: ' + material.title + ' study content.');
+      });
+      card.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+
+      return card;
+    }
+
+    function renderStudyCards() {
+      cardsContainer.innerHTML = '';
+      studyMaterials.forEach(mat => {
+        const card = createStudyCard(mat);
+        cardsContainer.appendChild(card);
+      });
+    }
+
+    renderStudyCards();
+
+    // CTA button scrolls to materials and switch to Browse tab
+    document.getElementById('startStudyingBtn').addEventListener('click', () => {
+      switchTab('browse');
+    });
+
+    // Browse tab elements
+    const browseLoading = document.getElementById('browseLoading');
+    const fileList = document.getElementById('fileList');
+
+    // GitHub repo info
+    const githubOwner = 'octokit';
+    const githubRepo = 'octokit.rb';
+    const githubPath = ''; // root
+
+    // Fetch markdown files from repo root folder
+    async function fetchMarkdownFiles() {
+      browseLoading.style.display = 'block';
+      fileList.innerHTML = '';
+      fileList.setAttribute('aria-busy', 'true');
+      try {
+        let url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${githubPath}?ref=main`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('GitHub API error: ' + response.status);
+
+        const data = await response.json();
+        const mdFiles = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.md'));
+
+        if(mdFiles.length === 0) {
+          fileList.innerHTML = '<li class="empty-list">No Markdown files found in this repository.</li>';
+        } else {
+          mdFiles.forEach(file => {
+            const li = document.createElement('li');
+            li.tabIndex = 0;
+            li.textContent = file.name;
+            li.title = `Open ${file.name} on GitHub`;
+            li.style.userSelect = 'text';
+
+            li.addEventListener('click', () => {
+              window.open(file.download_url || file.html_url, '_blank', 'noopener');
+            });
+            li.addEventListener('keydown', e => {
+              if(e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                li.click();
+              }
+            });
+
+            fileList.appendChild(li);
+          });
+        }
+      } catch (err) {
+        fileList.innerHTML = '<li class="empty-list" style="color: red;">Failed to load files. Please try again later.</li>';
+        console.error(err);
+      } finally {
+        browseLoading.style.display = 'none';
+        fileList.removeAttribute('aria-busy');
+      }
+    }
+
+    // Profile tab real-time data using localStorage state emulation
+    const notificationsList = document.getElementById('notificationsList');
+    const ongoingDownloadsList = document.getElementById('ongoingDownloadsList');
+    const downloadsList = document.getElementById('downloadsList');
+    const addNotificationBtn = document.getElementById('addNotificationBtn');
+
+    const STORAGE_KEYS = {
+      notifications: 'studyApp.notifications',
+      ongoingDownloads: 'studyApp.ongoingDownloads',
+      completedDownloads: 'studyApp.completedDownloads'
+    };
+
+    function loadFromStorage(key) {
+      const data = localStorage.getItem(key);
+      try {
+        return data ? JSON.parse(data) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveToStorage(key, data) {
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    // Render notifications real-time
+    function renderNotifications() {
+      const notifications = loadFromStorage(STORAGE_KEYS.notifications);
+      notificationsList.innerHTML = '';
+      if(notifications.length === 0) {
+        notificationsList.innerHTML = '<li class="empty-list">No notifications</li>';
+      } else {
+        notifications.forEach(note => {
+          const li = document.createElement('li');
+          li.textContent = note;
+          notificationsList.appendChild(li);
+        });
+      }
+    }
+
+    // Render ongoing downloads real-time with progress bar
+    function renderOngoingDownloads() {
+      const ongoing = loadFromStorage(STORAGE_KEYS.ongoingDownloads);
+      ongoingDownloadsList.innerHTML = '';
+      if(ongoing.length === 0) {
+        ongoingDownloadsList.innerHTML = '<li class="empty-list">No ongoing downloads</li>';
+      } else {
+        ongoing.forEach(download => {
+          const li = document.createElement('li');
+          li.style.display = 'flex';
+          li.style.flexDirection = 'column';
+          li.style.gap = '4px';
+          li.style.userSelect = 'text';
+
+          const textDiv = document.createElement('div');
+          textDiv.textContent = `${download.name} — ${download.progress}%`;
+          li.appendChild(textDiv);
+
+          const progressBar = document.createElement('div');
+          progressBar.className = 'progress-bar';
+
+          const progressFill = document.createElement('div');
+          progressFill.className = 'progress-bar-fill';
+          progressFill.style.width = download.progress + '%';
+
+          progressBar.appendChild(progressFill);
+          li.appendChild(progressBar);
+
+          ongoingDownloadsList.appendChild(li);
+        });
+      }
+    }
+
+    // Render completed downloads real-time
+    function renderCompletedDownloads() {
+      const completed = loadFromStorage(STORAGE_KEYS.completedDownloads);
+      downloadsList.innerHTML = '';
+      if(completed.length === 0) {
+        downloadsList.innerHTML = '<li class="empty-list">No downloads</li>';
+      } else {
+        completed.forEach(name => {
+          const li = document.createElement('li');
+          li.textContent = name;
+          downloadsList.appendChild(li);
+        });
+      }
+    }
+
+    // Simulate download progress updates every 1 second for ongoing downloads
+    function simulateDownloadProgress() {
+      let ongoing = loadFromStorage(STORAGE_KEYS.ongoingDownloads);
+      if(ongoing.length === 0) return;
+
+      let updated = false;
+      ongoing = ongoing.map(download => {
+        if(download.progress < 100) {
+          const increment = Math.floor(Math.random() * 15) + 5; // progress increase 5-19%
+          let newProgress = download.progress + increment;
+          if(newProgress >= 100) {
+            newProgress = 100;
+            // move to completed
+            addCompletedDownload(download.name);
+            updated = true;
+            return null; // remove from ongoing
+          }
+          updated = true;
+          return {...download, progress: newProgress};
+        } 
+        return download;
+      }).filter(Boolean);
+
+      if(updated) {
+        saveToStorage(STORAGE_KEYS.ongoingDownloads, ongoing);
+        renderOngoingDownloads();
+        renderCompletedDownloads();
+      }
+    }
+
+    function addNotification(text) {
+      const notifications = loadFromStorage(STORAGE_KEYS.notifications);
+      notifications.unshift(text);
+      if(notifications.length > 20) notifications.pop();
+      saveToStorage(STORAGE_KEYS.notifications, notifications);
+      renderNotifications();
+    }
+
+    function addOngoingDownload(name) {
+      const ongoing = loadFromStorage(STORAGE_KEYS.ongoingDownloads);
+      if(!ongoing.some(d => d.name === name)) {
+        ongoing.push({name, progress: 0});
+        saveToStorage(STORAGE_KEYS.ongoingDownloads, ongoing);
+      }
+      renderOngoingDownloads();
+    }
+
+    function addCompletedDownload(name) {
+      const completed = loadFromStorage(STORAGE_KEYS.completedDownloads);
+      if(!completed.includes(name)) {
+        completed.unshift(name);
+        if(completed.length > 30) completed.pop();
+        saveToStorage(STORAGE_KEYS.completedDownloads, completed);
+      }
+      renderCompletedDownloads();
+    }
+
+    // Add notification button click event - to add demo new notification
+    addNotificationBtn.addEventListener('click', () => {
+      const now = new Date().toLocaleTimeString();
+      addNotification(`New notification added at ${now}`);
+    });
+
+    // On app start - initialize storage if empty
+    function initializeStorage() {
+      if(!localStorage.getItem(STORAGE_KEYS.notifications)) {
+        saveToStorage(STORAGE_KEYS.notifications, [
+          "New study material \"Advanced Math\" added!",
+          "Scheduled maintenance on Friday at 9 PM.",
+          "Don't forget to review past lessons."
+        ]);
+      }
+      if(!localStorage.getItem(STORAGE_KEYS.ongoingDownloads)) {
+        saveToStorage(STORAGE_KEYS.ongoingDownloads, [
+          {name: 'Physics Principles.pdf', progress: 37},
+          {name: 'Biology Intro.pdf', progress: 82}
+        ]);
+      }
+      if(!localStorage.getItem(STORAGE_KEYS.completedDownloads)) {
+        saveToStorage(STORAGE_KEYS.completedDownloads, [
+          'Chemistry Essentials.pdf',
+          'History Overview.pdf'
+        ]);
+      }
+    }
+
+    initializeStorage();
+
+    // Initial render
+    renderNotifications();
+    renderOngoingDownloads();
+    renderCompletedDownloads();
+
+    // Simulate ongoing download progress every 1 second
+    setInterval(simulateDownloadProgress, 1000);
+
+  </script>
+</body>
+</html>
+
