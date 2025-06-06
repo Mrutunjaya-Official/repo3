@@ -19,6 +19,7 @@
       --spacing: 12px;
       --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
         Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      --transition-speed: 0.3s;
     }
 
     * {
@@ -31,64 +32,13 @@
       color: var(--color-text-primary);
       min-height: 100vh;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       -webkit-tap-highlight-color: transparent;
+      line-height: 1.45;
     }
 
-    /* Sidebar */
-    aside.sidebar {
-      width: 220px;
-      background: var(--color-card-bg);
-      box-shadow: 0 2px 5px var(--color-shadow);
-      padding: var(--spacing);
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing);
-      user-select: none;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      border-radius: 0 0.75rem 0.75rem 0;
-      font-size: 0.9rem;
-      color: var(--color-text-primary);
-      flex-shrink: 0;
-    }
-    aside.sidebar h2 {
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 0 0 8px;
-      user-select: text;
-      color: var(--color-accent);
-    }
-    aside.sidebar ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    aside.sidebar ul li {
-      padding: 6px 8px;
-      border-radius: var(--border-radius);
-      user-select: text;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-    aside.sidebar ul li:hover,
-    aside.sidebar ul li:focus {
-      background-color: #dbeafe;
-      outline: none;
-    }
-    aside.sidebar a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      width: 100%;
-      user-select: text;
-    }
-
-    /* Main container */
     main {
       flex: 1;
       overflow-y: auto;
@@ -96,11 +46,8 @@
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
-      display: flex;
-      flex-direction: column;
     }
 
-    /* Header */
     header {
       position: sticky;
       top: 0;
@@ -114,9 +61,6 @@
       user-select: none;
       height: 40px;
       min-height: 40px;
-      max-width: 480px;
-      width: 100%;
-      margin: 0 auto;
     }
     .logo {
       font-weight: 600;
@@ -140,7 +84,6 @@
       outline: none;
     }
 
-    /* Hero Section */
     .hero {
       padding: var(--spacing) 0 8px;
       text-align: center;
@@ -154,12 +97,12 @@
       line-height: 1.1;
     }
     .hero p {
-      margin: 0;
+      margin: 0 auto;
       font-size: 0.875rem;
       color: var(--color-text-secondary);
       max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-bottom: var(--spacing);
+      user-select: text;
     }
     .hero button {
       margin-top: var(--spacing);
@@ -172,15 +115,16 @@
       border-radius: var(--border-radius);
       cursor: pointer;
       box-shadow: 0 3px 6px var(--color-shadow);
-      transition: background-color 0.3s ease;
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      user-select: none;
     }
     .hero button:hover,
     .hero button:focus {
       background-color: var(--color-accent-hover);
       outline: none;
+      transform: scale(1.05);
     }
 
-    /* Study Cards Grid */
     .study-cards {
       display: grid;
       grid-template-columns: 1fr;
@@ -194,7 +138,6 @@
       }
     }
 
-    /* Single Card */
     .card {
       background: var(--color-card-bg);
       border-radius: var(--border-radius);
@@ -203,13 +146,15 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
       user-select: none;
       color: var(--color-text-primary);
       min-height: 92px;
+      position: relative;
+      overflow: visible;
     }
     .card:hover,
-    .card:focus {
+    .card:focus-within {
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 5px 12px rgba(37, 99, 235, 0.18);
       outline: none;
@@ -219,6 +164,7 @@
       font-size: 1rem;
       font-weight: 600;
       color: var(--color-accent);
+      user-select: text;
     }
     .card p {
       margin: 0;
@@ -237,7 +183,36 @@
       user-select: none;
     }
 
-    /* Bottom Navigation Bar */
+    .card .sub-content {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      display: none;
+      user-select: none;
+    }
+    .card .sub-content.active {
+      display: block;
+    }
+    .card .sub-content button.download-button {
+      background-color: var(--color-accent);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      user-select: none;
+    }
+    .card .sub-content button.download-button:hover,
+    .card .sub-content button.download-button:focus {
+      background-color: var(--color-accent-hover);
+      outline: none;
+      transform: scale(1.05);
+    }
+
     nav.bottom-nav {
       background: var(--color-bg);
       border-top: 1px solid #e5e7eb;
@@ -281,23 +256,20 @@
       fill: currentColor;
     }
 
-    /* Accessibility focus */
     button:focus-visible,
     [tabindex]:focus-visible {
       outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
 
-    /* Main tab content containers */
     .tab-content {
       display: none;
-      padding-bottom: 60px; /* leave space for bottom nav */
+      padding-bottom: 60px;
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Browse tab file list */
     .file-list {
       list-style: none;
       margin: 0;
@@ -334,7 +306,6 @@
       padding: 20px 0;
     }
 
-    /* Profile Sections */
     .profile-section {
       margin-bottom: var(--spacing);
     }
@@ -360,9 +331,31 @@
       font-size: 0.875rem;
       border-bottom: 1px solid #e5e7eb;
       user-select: text;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .list-group li:last-child {
       border-bottom: none;
+    }
+    .list-group li .open-btn {
+      background-color: var(--color-accent);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      user-select: none;
+    }
+    .list-group li .open-btn:hover,
+    .list-group li .open-btn:focus {
+      background-color: var(--color-accent-hover);
+      outline: none;
+      transform: scale(1.05);
     }
     .empty-list {
       padding: 10px 12px;
@@ -371,489 +364,413 @@
       color: var(--color-text-secondary);
       user-select: none;
     }
-
-    /* Progress Bar */
-    .progress-bar {
-      height: 10px;
-      background-color: #dbeafe;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      margin-top: 4px;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      background-color: var(--color-accent);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
   </style>
 </head>
 <body>
-  <aside class="sidebar" aria-label="Useful links and tools sidebar">
-    <h2>Useful Links</h2>
-    <ul>
-      <li><a href="https://byjus.com/upsc/history-upsc-syllabus/" target="_blank" rel="noopener">UPSC History Syllabus</a></li>
-      <li><a href="https://jeemain.nta.nic.in/" target="_blank" rel="noopener">JEE Main Official</a></li>
-      <li><a href="https://www.ets.org/gre/revised_general/prepare/verbal_reasoning" target="_blank" rel="noopener">GRE Verbal Reasoning</a></li>
-      <li><a href="https://www.ets.org/gre/revised_general/prepare/quantitative_reasoning" target="_blank" rel="noopener">GRE Quantitative Reasoning</a></li>
-    </ul>
-    <h2>Tools</h2>
-    <ul>
-      <li><a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noopener">Markdown Cheat Sheet</a></li>
-      <li><a href="https://codepen.io/" target="_blank" rel="noopener">CodePen</a></li>
-      <li><a href="https://jsonlint.com/" target="_blank" rel="noopener">JSON Linter</a></li>
-      <li><a href="https://regex101.com/" target="_blank" rel="noopener">Regex Tester</a></li>
-    </ul>
-  </aside>
+  <header role="banner" aria-label="Study app header">
+    <div class="logo" aria-label="App logo">StudyMate</div>
+    <button class="menu-button" aria-label="Open menu" id="menuButton" aria-haspopup="true" aria-expanded="false">&#9776;</button>
+  </header>
 
-  <div style="flex: 1; display: flex; flex-direction: column; min-height: 100vh;">
-    <header role="banner" aria-label="Study app header">
-      <div class="logo" aria-label="App logo">StudyMate</div>
-      <button class="menu-button" aria-label="Open menu" id="menuButton" aria-haspopup="true" aria-expanded="false">&#9776;</button>
-    </header>
-
-    <main role="main" tabindex="-1">
-      <!-- Home Tab -->
-      <section id="tab-home" class="tab-content active" aria-label="Home tab content">
-        <section class="hero" aria-label="Hero section">
-          <h1>Master Your Studies</h1>
-          <p>Explore tailored study materials to boost your learning wherever you go.</p>
-          <button type="button" id="startStudyingBtn" aria-label="Browse study materials">Browse Materials</button>
-        </section>
-
-        <section class="study-cards" id="studyCards" aria-label="Available study materials">
-          <!-- Cards populated by JS -->
-        </section>
+  <main role="main" tabindex="-1">
+    <section id="tab-home" class="tab-content active" aria-label="Home tab content">
+      <section class="hero" aria-label="Hero section">
+        <h1>Master Your Studies</h1>
+        <p>Explore tailored study materials to boost your learning wherever you go.</p>
+        <button type="button" id="startStudyingBtn" aria-label="Browse study materials">Browse Materials</button>
       </section>
 
-      <!-- Browse Tab -->
-      <section id="tab-browse" class="tab-content" aria-label="Browse tab content">
-        <h2 style="font-weight:600; color: var(--color-text-primary); margin-bottom: 10px;">Browse Markdown Files</h2>
-        <p style="font-size:0.9rem; color: var(--color-text-secondary); margin-bottom:8px;">
-          Loading .md files from GitHub repository <code>octokit/octokit.rb</code>:
-        </p>
-        <div id="browseLoading" class="loading" aria-live="polite">Loading files...</div>
-        <ul id="fileList" class="file-list" tabindex="0" aria-label="Markdown files list">
-          <!-- Fetched files -->
-        </ul>
+      <section class="study-cards" id="studyCards" aria-label="Available study materials"></section>
+    </section>
+
+    <section id="tab-browse" class="tab-content" aria-label="Browse tab content">
+      <h2 style="font-weight:600; color: var(--color-text-primary); margin-bottom: 10px;">Browse Markdown Files</h2>
+      <p style="font-size:0.9rem; color: var(--color-text-secondary); margin-bottom:8px;">
+        Loading .md files from GitHub repository <code>octokit/octokit.rb</code>:
+      </p>
+      <div id="browseLoading" class="loading" aria-live="polite">Loading files...</div>
+      <ul id="fileList" class="file-list" tabindex="0" aria-label="Markdown files list"></ul>
+    </section>
+
+    <section id="tab-profile" class="tab-content" aria-label="Profile tab content">
+      <section class="profile-section" aria-label="Notifications">
+        <h3>Notifications</h3>
+        <ul id="notificationsList" class="list-group" aria-live="polite" aria-relevant="additions"></ul>
       </section>
 
-      <!-- Profile Tab -->
-      <section id="tab-profile" class="tab-content" aria-label="Profile tab content">
-        <section class="profile-section" aria-label="Notifications">
-          <h3>Notifications</h3>
-          <ul id="notificationsList" class="list-group" tabindex="0" aria-live="polite" aria-atomic="true">
-            <!-- Notifications populated by JS -->
-          </ul>
-          <button type="button" id="addNotificationBtn" aria-label="Add notification" style="margin-top:8px; background-color: var(--color-accent); color:white; border:none; border-radius:var(--border-radius); padding:6px 12px; cursor:pointer; font-weight:600;">Add Notification</button>
-        </section>
-
-        <section class="profile-section" aria-label="Ongoing Downloads">
-          <h3>Ongoing Downloads</h3>
-          <ul id="ongoingDownloadsList" class="list-group" tabindex="0" aria-live="polite" aria-atomic="true">
-            <!-- Ongoing downloads populated by JS -->
-          </ul>
-        </section>
-
-        <section class="profile-section" aria-label="Completed Downloads">
-          <h3>Downloads</h3>
-          <ul id="downloadsList" class="list-group" tabindex="0" aria-live="polite" aria-atomic="true">
-            <!-- Completed downloads populated by JS -->
-          </ul>
-        </section>
+      <section class="profile-section" aria-label="Ongoing Downloads">
+        <h3>Ongoing Downloads</h3>
+        <ul id="ongoingDownloadsList" class="list-group" aria-live="polite" aria-relevant="all"></ul>
       </section>
-    </main>
 
-    <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
-      <button type="button" aria-current="page" aria-label="Home" id="navHomeBtn">
-        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-5H9v5H4a1 1 0 0 1-1-1V9.5z"/></svg>
-        Home
-      </button>
-      <button type="button" aria-label="Browse" id="navBrowseBtn">
-        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 5h16v2H4V5zm0 7h16v2H4v-2zm0 7h16v2H4v-2z"/></svg>
-        Browse
-      </button>
-      <button type="button" aria-label="Profile" id="navProfileBtn">
-        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg>
-        Profile
-      </button>
-    </nav>
-  </div>
+      <section class="profile-section" aria-label="Completed Downloads">
+        <h3>Downloads</h3>
+        <ul id="downloadsList" class="list-group" aria-live="polite" aria-relevant="all"></ul>
+      </section>
+    </section>
+  </main>
 
-  <script>
-    // Tab elements
-    const tabs = {
-      home: document.getElementById('tab-home'),
-      browse: document.getElementById('tab-browse'),
-      profile: document.getElementById('tab-profile')
-    };
+  <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+    <button type="button" aria-current="page" aria-label="Home" id="navHomeBtn">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-5H9v5H4a1 1 0 0 1-1-1V9.5z"/></svg>
+      Home
+    </button>
+    <button type="button" aria-label="Browse" id="navBrowseBtn">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 5h16v2H4V5zm0 7h16v2H4v-2zm0 7h16v2H4v-2z"/></svg>
+      Browse
+    </button>
+    <button type="button" aria-label="Profile" id="navProfileBtn">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg>
+      Profile
+    </button>
+  </nav>
 
-    // Nav buttons
-    const navHomeBtn = document.getElementById('navHomeBtn');
-    const navBrowseBtn = document.getElementById('navBrowseBtn');
-    const navProfileBtn = document.getElementById('navProfileBtn');
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed.');
 
-    const navButtons = [navHomeBtn, navBrowseBtn, navProfileBtn];
+  // Elements and tabs
+  const tabs = {
+    home: document.getElementById('tab-home'),
+    browse: document.getElementById('tab-browse'),
+    profile: document.getElementById('tab-profile')
+  };
 
-    // Current active tab
-    let currentTab = 'home';
+  const navHomeBtn = document.getElementById('navHomeBtn');
+  const navBrowseBtn = document.getElementById('navBrowseBtn');
+  const navProfileBtn = document.getElementById('navProfileBtn');
 
-    // Function to switch tabs
-    function switchTab(target) {
-      if(target === currentTab) return;
-      // Hide all tab contents
-      Object.values(tabs).forEach(tab => tab.classList.remove('active'));
-      // Show target tab content
-      tabs[target].classList.add('active');
+  const navButtons = [navHomeBtn, navBrowseBtn, navProfileBtn];
 
-      // Update nav buttons aria-current
-      navButtons.forEach(btn => btn.setAttribute('aria-current', 'false'));
-      if(target === 'home') navHomeBtn.setAttribute('aria-current', 'page');
-      else if(target === 'browse') navBrowseBtn.setAttribute('aria-current', 'page');
-      else if(target === 'profile') navProfileBtn.setAttribute('aria-current', 'page');
+  let currentTab = 'home';
 
-      currentTab = target;
+  function switchTab(target) {
+    if(target === currentTab) return;
+    Object.values(tabs).forEach(tab => tab.classList.remove('active'));
+    tabs[target].classList.add('active');
 
-      // If browse tab, load GitHub .md files list dynamically
-      if(target === 'browse') {
-        fetchMarkdownFiles();
-      }
-      // If profile tab, refresh profile data
-      if(target === 'profile') {
-        renderNotifications();
-        renderOngoingDownloads();
-        renderCompletedDownloads();
-      }
+    navButtons.forEach(btn => btn.setAttribute('aria-current', 'false'));
+    if(target === 'home') navHomeBtn.setAttribute('aria-current', 'page');
+    else if(target === 'browse') navBrowseBtn.setAttribute('aria-current', 'page');
+    else if(target === 'profile') navProfileBtn.setAttribute('aria-current', 'page');
+
+    currentTab = target;
+
+    if(target === 'browse') {
+      fetchMarkdownFiles();
     }
+  }
 
-    navHomeBtn.addEventListener('click', () => switchTab('home'));
-    navBrowseBtn.addEventListener('click', () => switchTab('browse'));
-    navProfileBtn.addEventListener('click', () => switchTab('profile'));
+  navHomeBtn.addEventListener('click', () => switchTab('home'));
+  navBrowseBtn.addEventListener('click', () => switchTab('browse'));
+  navProfileBtn.addEventListener('click', () => switchTab('profile'));
 
-    // Study materials data for Home tab
-    const studyMaterials = [
-      {
-        id: 'mat1',
-        title: 'Mathematics Basics',
-        description: 'Start with algebra, geometry, and calculus fundamentals.',
-        details: '12 lessons',
-      },
-      {
-        id: 'mat2',
-        title: 'Physics Principles',
-        description: 'Understand motion, forces, energy, and waves.',
-        details: '9 lessons',
-      },
-      {
-        id: 'mat3',
-        title: 'Chemistry Essentials',
-        description: 'Explore atoms, molecules, reactions, and periodic trends.',
-        details: '15 lessons',
-      },
-      {
-        id: 'mat4',
-        title: 'Biology Intro',
-        description: 'Learn about cells, genetics, ecology, and evolution.',
-        details: '11 lessons',
-      },
-      {
-        id: 'mat5',
-        title: 'History Overview',
-        description: 'Dive into world history from ancient to modern times.',
-        details: '8 lessons',
-      },
-      {
-        id: 'mat6',
-        title: 'Computer Science',
-        description: 'Discover algorithms, programming basics, and data structures.',
-        details: '14 lessons',
-      }
-    ];
-
-    const cardsContainer = document.getElementById('studyCards');
-
-    function createStudyCard(material) {
-      const card = document.createElement('article');
-      card.className = 'card';
-      card.tabIndex = 0;
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-pressed', 'false');
-      card.setAttribute('aria-label', `Study material: ${material.title}`);
-
-      card.innerHTML = `
-        <h2>${material.title}</h2>
-        <p>${material.description}</p>
-        <div class="details">${material.details}</div>
-      `;
-
-      card.addEventListener('click', () => {
-        alert('Coming soon: ' + material.title + ' study content.');
-      });
-      card.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          card.click();
-        }
-      });
-
-      return card;
+  // Study materials data for Home tab
+  const studyMaterials = [
+    {
+      id: 'mat1',
+      title: 'Mathematics Basics',
+      description: 'Start with algebra, geometry, and calculus fundamentals.',
+      details: '12 lessons',
+      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
+    },
+    {
+      id: 'mat2',
+      title: 'Physics Principles',
+      description: 'Understand motion, forces, energy, and waves.',
+      details: '9 lessons',
+      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
+    },
+    {
+      id: 'mat3',
+      title: 'Chemistry Essentials',
+      description: 'Explore atoms, molecules, reactions, and periodic trends.',
+      details: '15 lessons',
+      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
+    },
+    {
+      id: 'mat4',
+      title: 'Biology Intro',
+      description: 'Learn about cells, genetics, ecology, and evolution.',
+      details: '11 lessons',
+      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
+    },
+    {
+      id: 'mat5',
+      title: 'History Overview',
+      description: 'Dive into world history from ancient to modern times.',
+      details: '8 lessons',
+      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
+    },
+    {
+      id: 'mat6',
+      title: 'Computer Science',
+      description: 'Discover algorithms, programming basics, and data structures.',
+      details: '14 lessons',
+      downloadUrl: 'https://file-examples-com.github.io/uploads/2017/10/file-sample_150kB.pdf'
     }
+  ];
 
-    function renderStudyCards() {
-      cardsContainer.innerHTML = '';
-      studyMaterials.forEach(mat => {
-        const card = createStudyCard(mat);
-        cardsContainer.appendChild(card);
+  const cardsContainer = document.getElementById('studyCards');
+
+  const ongoingDownloads = [];
+  const completedDownloads = [];
+
+  const notifications = [];
+
+  const notificationsList = document.getElementById('notificationsList');
+  const ongoingDownloadsList = document.getElementById('ongoingDownloadsList');
+  const downloadsList = document.getElementById('downloadsList');
+
+  function renderNotifications() {
+    notificationsList.innerHTML = '';
+    if (notifications.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'empty-list';
+      li.textContent = 'No notifications';
+      notificationsList.appendChild(li);
+    } else {
+      notifications.forEach(note => {
+        const li = document.createElement('li');
+        li.textContent = note;
+        notificationsList.appendChild(li);
       });
     }
+  }
 
-    renderStudyCards();
+  function addNotification(message) {
+    notifications.unshift(message);
+    if (notifications.length > 20) notifications.pop();
+    renderNotifications();
+  }
 
-    // CTA button scrolls to materials and switch to Browse tab
-    document.getElementById('startStudyingBtn').addEventListener('click', () => {
-      switchTab('browse');
+  function renderOngoingDownloads() {
+    ongoingDownloadsList.innerHTML = '';
+    if (ongoingDownloads.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'empty-list';
+      li.textContent = 'No ongoing downloads';
+      ongoingDownloadsList.appendChild(li);
+    } else {
+      ongoingDownloads.forEach(download => {
+        const li = document.createElement('li');
+        li.textContent = `${download.name} — ${download.progress}%`;
+        ongoingDownloadsList.appendChild(li);
+      });
+    }
+  }
+
+  function renderCompletedDownloads() {
+    downloadsList.innerHTML = '';
+    if (completedDownloads.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'empty-list';
+      li.textContent = 'No downloads';
+      downloadsList.appendChild(li);
+    } else {
+      completedDownloads.forEach(download => {
+        const li = document.createElement('li');
+        li.textContent = download.name;
+
+        const openButton = document.createElement('button');
+        openButton.className = 'open-btn';
+        openButton.type = 'button';
+        openButton.setAttribute('aria-label', `Open downloaded file ${download.name}`);
+        openButton.textContent = 'Open';
+        openButton.addEventListener('click', () => {
+          window.open(download.url, '_blank', 'noopener');
+        });
+
+        li.appendChild(openButton);
+        downloadsList.appendChild(li);
+      });
+    }
+  }
+
+  function createStudyCard(material) {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-pressed', 'false');
+    card.setAttribute('aria-label', `Study material: ${material.title}`);
+
+    card.innerHTML = `
+      <h2>${material.title}</h2>
+      <p>${material.description}</p>
+      <div class="details">${material.details}</div>
+    `;
+
+    const subContent = document.createElement('div');
+    subContent.className = 'sub-content';
+    subContent.setAttribute('aria-hidden', 'true');
+    subContent.style.display = 'none';
+
+    const downloadButton = document.createElement('button');
+    downloadButton.className = 'download-button';
+    downloadButton.textContent = 'Download 📥';
+    downloadButton.setAttribute('aria-label', `Download ${material.title}`);
+    downloadButton.type = 'button';
+
+    downloadButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      startDownload(material);
     });
 
-    // Browse tab elements
-    const browseLoading = document.getElementById('browseLoading');
-    const fileList = document.getElementById('fileList');
+    subContent.appendChild(downloadButton);
+    card.appendChild(subContent);
 
-    // GitHub repo info
-    const githubOwner = 'octokit';
-    const githubRepo = 'octokit.rb';
-    const githubPath = ''; // root
-
-    // Fetch markdown files from repo root folder
-    async function fetchMarkdownFiles() {
-      browseLoading.style.display = 'block';
-      fileList.innerHTML = '';
-      fileList.setAttribute('aria-busy', 'true');
-      try {
-        let url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${githubPath}?ref=main`;
-
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('GitHub API error: ' + response.status);
-
-        const data = await response.json();
-        const mdFiles = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.md'));
-
-        if(mdFiles.length === 0) {
-          fileList.innerHTML = '<li class="empty-list">No Markdown files found in this repository.</li>';
-        } else {
-          mdFiles.forEach(file => {
-            const li = document.createElement('li');
-            li.tabIndex = 0;
-            li.textContent = file.name;
-            li.title = `Open ${file.name} on GitHub`;
-            li.style.userSelect = 'text';
-
-            li.addEventListener('click', () => {
-              window.open(file.download_url || file.html_url, '_blank', 'noopener');
-            });
-            li.addEventListener('keydown', e => {
-              if(e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                li.click();
-              }
-            });
-
-            fileList.appendChild(li);
-          });
-        }
-      } catch (err) {
-        fileList.innerHTML = '<li class="empty-list" style="color: red;">Failed to load files. Please try again later.</li>';
-        console.error(err);
-      } finally {
-        browseLoading.style.display = 'none';
-        fileList.removeAttribute('aria-busy');
-      }
-    }
-
-    // Profile tab real-time data using localStorage state emulation
-    const notificationsList = document.getElementById('notificationsList');
-    const ongoingDownloadsList = document.getElementById('ongoingDownloadsList');
-    const downloadsList = document.getElementById('downloadsList');
-    const addNotificationBtn = document.getElementById('addNotificationBtn');
-
-    const STORAGE_KEYS = {
-      notifications: 'studyApp.notifications',
-      ongoingDownloads: 'studyApp.ongoingDownloads',
-      completedDownloads: 'studyApp.completedDownloads'
-    };
-
-    function loadFromStorage(key) {
-      const data = localStorage.getItem(key);
-      try {
-        return data ? JSON.parse(data) : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function saveToStorage(key, data) {
-      localStorage.setItem(key, JSON.stringify(data));
-    }
-
-    // Render notifications real-time
-    function renderNotifications() {
-      const notifications = loadFromStorage(STORAGE_KEYS.notifications);
-      notificationsList.innerHTML = '';
-      if(notifications.length === 0) {
-        notificationsList.innerHTML = '<li class="empty-list">No notifications</li>';
+    card.addEventListener('click', () => {
+      const isActive = subContent.style.display === 'block';
+      if (isActive) {
+        subContent.style.display = 'none';
+        subContent.setAttribute('aria-hidden', 'true');
+        card.setAttribute('aria-pressed', 'false');
       } else {
-        notifications.forEach(note => {
-          const li = document.createElement('li');
-          li.textContent = note;
-          notificationsList.appendChild(li);
+        document.querySelectorAll('.card .sub-content.active').forEach(el => {
+          el.style.display = 'none';
+          el.classList.remove('active');
+          el.parentElement.setAttribute('aria-pressed', 'false');
+          el.setAttribute('aria-hidden', 'true');
         });
-      }
-    }
-
-    // Render ongoing downloads real-time with progress bar
-    function renderOngoingDownloads() {
-      const ongoing = loadFromStorage(STORAGE_KEYS.ongoingDownloads);
-      ongoingDownloadsList.innerHTML = '';
-      if(ongoing.length === 0) {
-        ongoingDownloadsList.innerHTML = '<li class="empty-list">No ongoing downloads</li>';
+        subContent.setAttribute('aria-hidden', 'true');
+        card.setAttribute('aria-pressed', 'false');
       } else {
-        ongoing.forEach(download => {
+        document.querySelectorAll('.card .sub-content.active').forEach(el => {
+          el.style.display = 'none';
+          el.classList.remove('active');
+          el.parentElement.setAttribute('aria-pressed', 'false');
+          el.setAttribute('aria-hidden', 'true');
+        });
+        subContent.style.display = 'block';
+        subContent.classList.add('active');
+        subContent.setAttribute('aria-hidden', 'false');
+        card.setAttribute('aria-pressed', 'true');
+      }
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+
+    return card;
+  }
+
+  function renderStudyCards() {
+    cardsContainer.innerHTML = '';
+    studyMaterials.forEach(mat => {
+      const card = createStudyCard(mat);
+      cardsContainer.appendChild(card);
+    });
+  }
+
+  function startDownload(material) {
+    // Check existing downloads
+    if (ongoingDownloads.some(d => d.id === material.id) || completedDownloads.some(d => d.id === material.id)) {
+      alert(`"${material.title}" is already downloading or downloaded.`);
+      return;
+    }
+    const downloadItem = { id: material.id, name: material.title, progress: 0, url: material.downloadUrl };
+    ongoingDownloads.push(downloadItem);
+    renderOngoingDownloads();
+
+    const intervalId = setInterval(() => {
+      // Increment by 5-20%
+      downloadItem.progress += Math.floor(Math.random() * 15) + 5;
+      if (downloadItem.progress >= 100) {
+        downloadItem.progress = 100;
+        clearInterval(intervalId);
+        const idx = ongoingDownloads.findIndex(d => d.id === downloadItem.id);
+        if (idx !== -1) ongoingDownloads.splice(idx, 1);
+        completedDownloads.push(downloadItem);
+        renderOngoingDownloads();
+        renderCompletedDownloads();
+        addNotification(`Download complete: "${material.title}"`);
+      } else {
+        renderOngoingDownloads();
+      }
+    }, 800);
+  }
+
+  // GitHub repo info
+  const githubOwner = 'octokit';
+  const githubRepo = 'octokit.rb';
+  const githubPath = '';
+
+  const browseLoading = document.getElementById('browseLoading');
+  const fileList = document.getElementById('fileList');
+
+  async function fetchMarkdownFiles() {
+    browseLoading.style.display = 'block';
+    fileList.innerHTML = '';
+    fileList.setAttribute('aria-busy', 'true');
+    try {
+      const url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${githubPath}?ref=main`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('GitHub API error: ' + response.status);
+      const data = await response.json();
+      const mdFiles = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.md'));
+      if (mdFiles.length === 0) {
+        fileList.innerHTML = '<li class="empty-list">No Markdown files found in this repository.</li>';
+      } else {
+        mdFiles.forEach(file => {
           const li = document.createElement('li');
-          li.style.display = 'flex';
-          li.style.flexDirection = 'column';
-          li.style.gap = '4px';
+          li.tabIndex = 0;
+          li.textContent = file.name;
+          li.title = `Open ${file.name} on GitHub`;
           li.style.userSelect = 'text';
 
-          const textDiv = document.createElement('div');
-          textDiv.textContent = `${download.name} — ${download.progress}%`;
-          li.appendChild(textDiv);
+          li.addEventListener('click', () => {
+            window.open(file.download_url || file.html_url, '_blank', 'noopener');
+          });
+          li.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              li.click();
+            }
+          });
 
-          const progressBar = document.createElement('div');
-          progressBar.className = 'progress-bar';
-
-          const progressFill = document.createElement('div');
-          progressFill.className = 'progress-bar-fill';
-          progressFill.style.width = download.progress + '%';
-
-          progressBar.appendChild(progressFill);
-          li.appendChild(progressBar);
-
-          ongoingDownloadsList.appendChild(li);
+          fileList.appendChild(li);
         });
       }
+    } catch (err) {
+      fileList.innerHTML = '<li class="empty-list" style="color: red;">Failed to load files. Please try again later.</li>';
+      console.error(err);
+    } finally {
+      browseLoading.style.display = 'none';
+      fileList.removeAttribute('aria-busy');
     }
+  }
 
-    // Render completed downloads real-time
-    function renderCompletedDownloads() {
-      const completed = loadFromStorage(STORAGE_KEYS.completedDownloads);
-      downloadsList.innerHTML = '';
-      if(completed.length === 0) {
-        downloadsList.innerHTML = '<li class="empty-list">No downloads</li>';
-      } else {
-        completed.forEach(name => {
-          const li = document.createElement('li');
-          li.textContent = name;
-          downloadsList.appendChild(li);
-        });
-      }
-    }
+  // Simulate real-time notification
+  function simulateNotificationUpdates() {
+    const messages = [
+      'New study material "Advanced Math" uploaded!',
+      'Scheduled maintenance on Friday at 9 PM.',
+      "Don't forget to review past lessons.",
+      'Physics Principles updated with new exercises!',
+      'Biology Intro: New video lessons added!'
+    ];
+    setInterval(() => {
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      addNotification(randomMessage);
+    }, 15000);
+  }
 
-    // Simulate download progress updates every 1 second for ongoing downloads
-    function simulateDownloadProgress() {
-      let ongoing = loadFromStorage(STORAGE_KEYS.ongoingDownloads);
-      if(ongoing.length === 0) return;
+  // Start app after DOM ready
+  renderStudyCards();
+  renderNotifications();
+  renderOngoingDownloads();
+  renderCompletedDownloads();
+  simulateNotificationUpdates();
 
-      let updated = false;
-      ongoing = ongoing.map(download => {
-        if(download.progress < 100) {
-          const increment = Math.floor(Math.random() * 15) + 5; // progress increase 5-19%
-          let newProgress = download.progress + increment;
-          if(newProgress >= 100) {
-            newProgress = 100;
-            // move to completed
-            addCompletedDownload(download.name);
-            updated = true;
-            return null; // remove from ongoing
-          }
-          updated = true;
-          return {...download, progress: newProgress};
-        } 
-        return download;
-      }).filter(Boolean);
-
-      if(updated) {
-        saveToStorage(STORAGE_KEYS.ongoingDownloads, ongoing);
-        renderOngoingDownloads();
-        renderCompletedDownloads();
-      }
-    }
-
-    function addNotification(text) {
-      const notifications = loadFromStorage(STORAGE_KEYS.notifications);
-      notifications.unshift(text);
-      if(notifications.length > 20) notifications.pop();
-      saveToStorage(STORAGE_KEYS.notifications, notifications);
-      renderNotifications();
-    }
-
-    function addOngoingDownload(name) {
-      const ongoing = loadFromStorage(STORAGE_KEYS.ongoingDownloads);
-      if(!ongoing.some(d => d.name === name)) {
-        ongoing.push({name, progress: 0});
-        saveToStorage(STORAGE_KEYS.ongoingDownloads, ongoing);
-      }
-      renderOngoingDownloads();
-    }
-
-    function addCompletedDownload(name) {
-      const completed = loadFromStorage(STORAGE_KEYS.completedDownloads);
-      if(!completed.includes(name)) {
-        completed.unshift(name);
-        if(completed.length > 30) completed.pop();
-        saveToStorage(STORAGE_KEYS.completedDownloads, completed);
-      }
-      renderCompletedDownloads();
-    }
-
-    // Add notification button click event - to add demo new notification
-    addNotificationBtn.addEventListener('click', () => {
-      const now = new Date().toLocaleTimeString();
-      addNotification(`New notification added at ${now}`);
-    });
-
-    // On app start - initialize storage if empty
-    function initializeStorage() {
-      if(!localStorage.getItem(STORAGE_KEYS.notifications)) {
-        saveToStorage(STORAGE_KEYS.notifications, [
-          "New study material \"Advanced Math\" added!",
-          "Scheduled maintenance on Friday at 9 PM.",
-          "Don't forget to review past lessons."
-        ]);
-      }
-      if(!localStorage.getItem(STORAGE_KEYS.ongoingDownloads)) {
-        saveToStorage(STORAGE_KEYS.ongoingDownloads, [
-          {name: 'Physics Principles.pdf', progress: 37},
-          {name: 'Biology Intro.pdf', progress: 82}
-        ]);
-      }
-      if(!localStorage.getItem(STORAGE_KEYS.completedDownloads)) {
-        saveToStorage(STORAGE_KEYS.completedDownloads, [
-          'Chemistry Essentials.pdf',
-          'History Overview.pdf'
-        ]);
-      }
-    }
-
-    initializeStorage();
-
-    // Initial render
-    renderNotifications();
-    renderOngoingDownloads();
-    renderCompletedDownloads();
-
-    // Simulate ongoing download progress every 1 second
-    setInterval(simulateDownloadProgress, 1000);
-
-  </script>
+  document.getElementById('startStudyingBtn').addEventListener('click', () => {
+    switchTab('browse');
+  });
+});
+</script>
 </body>
 </html>
-
