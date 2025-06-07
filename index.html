@@ -465,6 +465,40 @@
       color: var(--color-text-secondary);
       user-select: none;
     }
+
+    /* Desktop / PC mode styles */
+    @media (min-width: 1024px) {
+      body {
+        overflow-x: unset;
+      }
+      /* Permanent sidebar visible */
+      .sidebar {
+        left: 0 !important;
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        width: 60px;
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      }
+      /* Main content margin adjusted to sidebar width */
+      main {
+        max-width: none;
+        width: auto;
+        margin-left: 60px;
+      }
+      main.sidebar-open {
+        margin-left: 60px;
+      }
+      /* Hide bottom nav bar */
+      nav.bottom-nav {
+        display: none;
+      }
+      /* Hide menu button */
+      .menu-button {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -595,11 +629,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sidebar toggle
   const menuButton = document.getElementById('menuButton');
   const sidebar = document.getElementById('sidebar');
-  const sidebarOverlay = document.createElement('div');
-  sidebarOverlay.className = 'sidebar-overlay';
-  sidebarOverlay.tabIndex = -1;
-  sidebarOverlay.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(sidebarOverlay);
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const mainContent = document.getElementById('mainContent');
 
   function openSidebar() {
     sidebar.classList.add('open');
@@ -626,6 +657,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if(e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
   });
 
+  // Disable sidebar toggle on desktop
+  function handleResize() {
+    if(window.innerWidth >= 1024) {
+      sidebar.classList.add('open');
+      mainContent.classList.add('sidebar-open');
+      menuButton.setAttribute('aria-expanded', 'true');
+      sidebarOverlay.classList.remove('active');
+      sidebarOverlay.style.display = 'none';
+    } else {
+      sidebar.classList.remove('open');
+      mainContent.classList.remove('sidebar-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      sidebarOverlay.style.display = '';
+    }
+  }
+  window.addEventListener('resize', handleResize);
+  handleResize();
+
   // Study materials and downloads, notifications setup...
 
   const studyMaterials = [
@@ -638,7 +687,6 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const cardsContainer = document.getElementById('studyCards');
-  const mainContent = document.getElementById('mainContent');
   const ongoingDownloads = [];
   const completedDownloads = [];
   const notifications = [];
